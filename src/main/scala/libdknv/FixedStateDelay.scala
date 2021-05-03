@@ -14,13 +14,15 @@ class FixedStateDelay(cyclesCount: UInt)(implicit stateMachineAccessor: StateMac
   val cache = stateMachineAccessor.cacheGetOrElseUpdate(StateMachineSharableUIntKey, new StateMachineSharableRegUInt).asInstanceOf[StateMachineSharableRegUInt]
   cache.addMinWidth(cyclesCount.getWidth)
 
+  val isCompleted = (cache.value <= 1)
+
   onEntry{
     cache.value := cyclesCount
   }
 
   whenIsActive{
     cache.value := cache.value - 1
-    when(cache.value <= 1){
+    when(isCompleted) {
       doWhenCompletedTasks()
     }
   }
