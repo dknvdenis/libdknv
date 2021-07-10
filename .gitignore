@@ -2,3 +2,6 @@
 target/
 out/
 .bsp/
+
+project/project/
+project/target/

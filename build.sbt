@@ -1,15 +1,16 @@
-name := "libdknv"
-
-scalaVersion := "2.11.12"
-val spinalVersion = "1.4.2"
-
+ThisBuild / scalaVersion := "2.11.12"
 ThisBuild / organization := "com.github.dknvdenis"
 ThisBuild / version      := "1.0.0"
 
-libraryDependencies ++= Seq(
-  "com.github.spinalhdl" % "spinalhdl-core_2.11" % spinalVersion,
-  "com.github.spinalhdl" % "spinalhdl-lib_2.11" % spinalVersion,
-  compilerPlugin("com.github.spinalhdl" % "spinalhdl-idsl-plugin_2.11" % spinalVersion)
-)
+val spinalVersion = "1.5.0"
+val spinalCore = "com.github.spinalhdl" %% "spinalhdl-core" % spinalVersion
+val spinalLib = "com.github.spinalhdl" %% "spinalhdl-lib" % spinalVersion
+val spinalIdslPlugin = compilerPlugin("com.github.spinalhdl" %% "spinalhdl-idsl-plugin" % spinalVersion)
+
+lazy val mylib = (project in file("."))
+  .settings(
+    name := "libdknv",
+    libraryDependencies ++= Seq(spinalCore, spinalLib, spinalIdslPlugin)
+  )
 
 fork := true
